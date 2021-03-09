@@ -1,18 +1,18 @@
 import React from "react"
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css';
 
-function TimeSignatureSelector(props) {
+function MeasureSelector(props) {
     return (
         <div className="MeasureSelector">
-            <input 
-                type="number"
-                defaultValue={120}
+            <Slider 
                 value={props.measures}
-                onChange={(event) => props.changeMeasures(event.target.value)}
                 min={1}
                 max={10}
+                onChange={(event) => props.changeMeasures(event)}
             />
         </div>
     )
 }
 
-export default TimeSignatureSelector
+export default MeasureSelector
