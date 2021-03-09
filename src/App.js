@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import './App.css'
+import { useState } from 'react'
+import SettingsBar from "./Components/SettingsBar"
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+    const [keyNote, changeKeyNote] = useState("C")
+    const [keyQuality, changeKeyQuality] = useState("Major")
+    const [timeSignature, changeTimeSignature] = useState("4/4")
+    const [measures, changeMeasures] = useState(4)
+    const [tempo, changeTempo] = useState(120)
+
+    return (
+        <div className="App">
+            <SettingsBar
+                keyNote={keyNote}
+                keyQuality={keyQuality}
+                changeKeyNote={changeKeyNote}
+                changeKeyQuality={changeKeyQuality}
+                timeSignature={timeSignature}
+                changeTimeSignature={changeTimeSignature}
+                measures={measures}
+                changeMeasures={changeMeasures}
+                tempo={tempo}
+                changeTempo={changeTempo}
+            />
+        </div>
+    );
 }
 
-export default App;
+export default App

@@ -1,0 +1,34 @@
+.SettingsBar {
+    height: 100%;
+    display: grid;
+    grid-gap: 3px;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: 40px;
+    grid-template-areas: 
+        "p p p k k q q s s m m ."
+        "p p p t t t t t t t t ."
+}
+
+.SettingsPane {
+    grid-area: p;
+}
+
+.KeySelector {
+    grid-area: k;
+}
+
+.QualitySelector {
+    grid-area: q;
+}
+
+.MeasureSelector {
+    grid-area: m;
+}
+
+.TempoSelector {
+    grid-area: t;
+}
+
+.TimeSignatureSelector {
+    grid-area: s
+}
