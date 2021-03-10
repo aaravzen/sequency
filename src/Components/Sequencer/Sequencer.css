@@ -1,0 +1,20 @@
+.chordSelectButtons {
+    background-color: #C7384D;
+    border: #95C738;
+    color: #6A38C7;
+    border-width: 5px;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.chordSelectButtons:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+.chordViewBox {
+    background-color: #38C7B2;
+    color: #6A38C7
+}

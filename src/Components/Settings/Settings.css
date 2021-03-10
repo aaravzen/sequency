@@ -5,8 +5,8 @@
     grid-template-columns: repeat(12, 1fr);
     grid-template-rows: 40px;
     grid-template-areas: 
-        "p p p k k q q s s m m ."
-        "p p p t t t t t t t t ."
+        "p p k k q q q s s m m ."
+        "p p b b b b b t t t t ."
 }
 
 .SettingsPane {
@@ -31,4 +31,8 @@
 
 .TimeSignatureSelector {
     grid-area: s
+}
+
+.MusicPlayer {
+    grid-area: b
 }
