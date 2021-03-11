@@ -4,7 +4,7 @@ import QualitySelector from "./Settings/QualitySelector"
 import TimeSignatureSelector from "./Settings/TimeSignatureSelector"
 import MeasureSelector from "./Settings/MeasureSelector"
 import TempoSelector from "./Settings/TempoSelector"
-import MusicPlayer from "../Components/MusicPlayer"
+import ScaleTester from "./Settings/ScaleTester"
 import "./Settings/Settings.css"
 
 function SettingsBar(props) {
@@ -37,7 +37,7 @@ function SettingsBar(props) {
                 tempo={props.tempo}
                 changeTempo={props.changeTempo}
             />
-            <MusicPlayer scale={props.scale}/>
+            <ScaleTester scale={props.scale}/>
         </div>
     )
 }

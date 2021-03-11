@@ -11,7 +11,7 @@ function ChordSelector(props) {
 
     const buttons = props.chords.map((chord,idx) => 
     <select 
-    className="chordSelectButtons"
+    className={chord === "" ? "chordSelectButtonUnfilled" : "chordSelectButtonFilled"}
     onChange={(event) => editChordAtIdx(event, idx)}
     value={chord}
     key={idx}>

@@ -1,7 +1,19 @@
-.chordSelectButtons {
+.chordSelectButtonFilled {
+    background-color: #38C7B2;
+    border: #95C738;
+    color: white;
+    border-width: 5px;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.chordSelectButtonUnfilled {
     background-color: #C7384D;
     border: #95C738;
-    color: #6A38C7;
+    color: white;
     border-width: 5px;
     padding: 10px;
     text-align: center;
