@@ -34,15 +34,16 @@ function ScaleTester(props) {
     pressed.push(useKeyPress("k", () => synth.triggerAttack(notes[7]), () => synth.triggerRelease(notes[7])))
     // const pressed = keys.map((key) => useKeyPress(key))
     
+    console.log(notes)
     const buttons = notes.map((note, idx) => 
         <button
             onMouseDown={e => handleMouseDown(e, note)} 
             onMouseUp={e => handleMouseUp(e, note)}
-            key={note}
+            key={note + idx}
             className={(pressed[idx] || held.current[idx]) ? "ScaleTesterButtonDown" : "ScaleTesterButtonUp"}
         > {note} </button>
     )
-    
+    console.log(buttons)
     return (
         <div className="MusicPlayer">
             {buttons}

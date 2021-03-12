@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import ChordSelector from "./Sequencer/ChordSelector"
 import SynthTrack from "./Sequencer/SynthTrack"
-import {getChords} from "../Music/ScaleTools"
+import {getChordsInKey} from "../Music/ScaleTools"
 import "./Sequencer/Sequencer.css"
 
 function Sequencer(props) {
@@ -14,7 +14,7 @@ function Sequencer(props) {
     }
     
     useEffect(() => {
-        const validChords = getChords(props.keyNote, props.keyQuality)
+        const validChords = getChordsInKey(props.keyNote, props.keyQuality)
         const newChords = chords.map((c) => validChords.includes(c) ? c : "")
         if (JSON.stringify(newChords) !== JSON.stringify(chords)){
             changeChords(newChords)
