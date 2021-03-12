@@ -1,34 +1,5 @@
 const sharp_octave = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
 const flat_octave = ["C", "D♭", "D", "E♭", "E", "F", "G♭", "G", "A♭", "A", "B♭", "B"]
-/*const sharp_notes = ["C3", "C#3", "D3", "D#3", "E3", "F3", "F#3", "G3", "G#3", "A3", "A#3", "B3",
-"C4", "C#4", "D4", "D#4", "E4", "F4", "F#4", "G4", "G#4", "A4", "A#4", "B4",
-"C5", "C#5", "D5", "D#5", "E5", "F5", "F#5", "G5", "G#5", "A5", "A#5", "B5"]
-const flat_notes = ["C3", "D♭3", "D3", "E♭3", "E3", "F3", "G♭3", "G3", "A♭3", "A3", "B♭3", "B3",
-"C3", "D♭3", "D3", "E♭3", "E3", "F3", "G♭3", "G3", "A♭3", "A3", "B♭3", "B3",
-"C3", "D♭3", "D3", "E♭3", "E3", "F3", "G♭3", "G3", "A♭5", "A5", "B♭5", "B5"]
-
-function shouldUseFlats(note, quality) {
-    const ans = {
-        "C": {
-            "Major": false,
-            "Ionian": false,
-            "Dorian": true,
-            "Phrygian": true,
-            "Lydian": false,
-            "Mixolydian": true,
-            "Aeolian": true,
-            "Minor": true,
-            "Locrian": true
-        }
-    }
-    try {
-        return ans[note][quality]
-    }
-    catch {
-        return false
-    }
-}
-*/
 
 function toSharp(note) {
     switch(note) {
