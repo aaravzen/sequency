@@ -13,14 +13,12 @@ function ScaleTester(props) {
         Tone.start();
         synth.triggerAttack(note);
         held.current[notes.indexOf(note)] = true
-        console.log(held.current)
     }
     
     function handleMouseUp(e, note) {
         e.preventDefault(e);
         synth.triggerRelease(note);
         held.current[notes.indexOf(note)] = false
-        console.log(held.current)
     }
 
     const pressed = [];
@@ -34,7 +32,7 @@ function ScaleTester(props) {
     pressed.push(useKeyPress("k", () => synth.triggerAttack(notes[7]), () => synth.triggerRelease(notes[7])))
     // const pressed = keys.map((key) => useKeyPress(key))
     
-    console.log(notes)
+    // console.log(notes)
     const buttons = notes.map((note, idx) => 
         <button
             onMouseDown={e => handleMouseDown(e, note)} 
@@ -43,7 +41,7 @@ function ScaleTester(props) {
             className={(pressed[idx] || held.current[idx]) ? "ScaleTesterButtonDown" : "ScaleTesterButtonUp"}
         > {note} </button>
     )
-    console.log(buttons)
+    // console.log(buttons)
     return (
         <div className="MusicPlayer">
             {buttons}

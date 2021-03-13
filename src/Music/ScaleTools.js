@@ -32,7 +32,9 @@ function getQualityOffset(quality) {
         case "aeolian":
         case "minor": return 5
         case "locrian": return 6
-        default: return 0 // major / ionian
+        case "major":
+        case "ionian":
+        default: return 0
     }
 }
 
@@ -62,7 +64,6 @@ export function getScale(keyNote, keyQuality) {
     const flatScale = buildScale(toFlat(keyNote), keyQuality, flat_octave)
     const sharpScale = buildScale(toSharp(keyNote), keyQuality, sharp_octave)
     const voices = Array.from("ABCDEFG")
-    console.log(`scales: ${flatScale} + ${sharpScale}`)
     if (flatScale.every(n => n !== "") && voices.every(v => flatScale.some(n => n !== "" && n.includes(v)))) {
         return flatScale
     }
@@ -81,4 +82,46 @@ export function getChordsInKey(keyNote, keyQuality) {
         ret.push(chord)
     }
     return ret
+}
+
+export function getChordModifications(chord) {
+    const keyNote = chord.split(" ")[0]
+    const modifiedQualities = [
+        "M",
+        "m",
+        "1",
+        "5",
+        "sus4",
+        "sus2",
+        "add9",
+        "6",
+        "6/9",
+        "Maj7",
+        "8",
+        "Maj9",
+        "Maj7#11",
+        "Maj13",
+        "madd9",
+        "m6",
+        "mb6",
+        "m6/9",
+        "m7",
+        "m7b5",
+        "m8",
+        "m9",
+        "m11",
+        "m13",
+        "7",
+        "7sus4",
+        "9",
+        "9sus4",
+        "11",
+        "13",
+        "13sus4",
+        "dim",
+        "dim7",
+        "m7o5",
+        "aug"
+    ]
+    return modifiedQualities.map(q => `${keyNote} ${q}`)
 }

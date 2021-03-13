@@ -3,7 +3,6 @@ import * as Tone from 'tone'
 
 function SynthTrack(props) {
 
-    // let [sequence, changeSequence] = useState(null)
     const filledChords = useRef(null)
     const synth = new Tone.Synth().toDestination()
     // const synth = useMemo(() => new Tone.Synth().toDestination(), []);
@@ -35,39 +34,13 @@ function SynthTrack(props) {
         return () => {sequence.clear()}
     }, [getFilledChords, synth])
 
-    function playTrack() {
-        Tone.start()
-        if (Tone.Transport.state !== "started") {
-            console.log("START")
-            Tone.Transport.start();
-            console.log(Tone.Transport.position)
-            // Tone.Transport.position = 0;
-        }
-    }
-
-    function stopTrack() {
-        if (Tone.Transport.state !== "stopped") {
-            // Tone.Transport.cancel();
-            Tone.Transport.pause();
-        }
-    }
-
-    useEffect(() => {
-        Tone.Transport.bpm.rampTo(props.tempo, 1)}, [props.tempo])
+    
     useEffect(() => {return updateSequence()}, [props.chords, updateSequence])
     const chordView = getFilledChords(props.chords).map((c,i) => <span className="chordViewBox" key={i}>{c === "" ? "- -" : c}</span>)
 
     return (
         <div className="SynthTrack">
             {chordView}
-            <button onClick={() => {
-                playTrack()
-            }}>
-                Play
-            </button>
-            <button onClick={stopTrack}>
-                Stop
-            </button>
         </div>
     )
 }
