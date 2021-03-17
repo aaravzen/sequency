@@ -1,14 +1,22 @@
-import React from "react"
+import React, { useState } from "react"
 import { isPlaying, play, pause } from "../../Music/ToneTools"
 
 
 function MasterControls() {
-    const button = isPlaying() ? (
-        <button onClick={pause}>
+    const [playing, setPlaying] = useState(isPlaying())
+
+    const button = playing ? (
+        <button onClick={() => {
+            pause()
+            setPlaying(false)
+        }}>
             Pause
         </button>
     ) : (
-        <button onClick={play}>
+        <button onClick={() => {
+            play()
+            setPlaying(true)
+        }}>
             Play
         </button>
     )

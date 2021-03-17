@@ -15,20 +15,7 @@ function ChordSelector(props) {
         {possOptions}
     </select>)
     
-    function generateMeasureIndices() {
-        const ret = []
-        const bpm = parseInt(props.timeSignature.split("/")[0])
-        for (let idx = 0; idx < props.chords.length; idx += bpm) {
-            const o = {
-                start: idx,
-                end: idx + bpm
-            }
-            ret.push(o)
-        }
-        return ret
-    }
-
-    const divided_selects = generateMeasureIndices().map((o, i) => <div className={"measure" + (i+1)} key={i}>
+    const divided_selects = props.measureIndices.map((o, i) => <div className={"measure" + (i+1)} key={i}>
         {selects.slice(o.start, o.end)}
     </div>)
 

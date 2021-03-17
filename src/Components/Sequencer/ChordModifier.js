@@ -16,7 +16,7 @@ function ChordModifier(props) {
             return (
                 <select 
                 className={c === "" ? "chordSelectButtonUnfilled" : "chordSelectButtonFilled"}
-                onChange={(event) => props.addChordAtBeat(i, event.target.value)}
+                onChange={(event) => props.modifyChordAtBeat(i, event.target.value)}
                 value={c}
                 key={i}>
                     {possOptions}

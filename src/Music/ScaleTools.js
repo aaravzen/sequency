@@ -1,7 +1,7 @@
 const sharp_octave = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
 const flat_octave = ["C", "D♭", "D", "E♭", "E", "F", "G♭", "G", "A♭", "A", "B♭", "B"]
 
-function toSharp(note) {
+export function toSharp(note) {
     switch(note) {
         case "D♭": return "E#"
         case "E♭": return "D#"
@@ -103,10 +103,10 @@ export function getChordModifications(chord) {
         "Maj13",
         "madd9",
         "m6",
-        "mb6",
+        "m♭6",
         "m6/9",
         "m7",
-        "m7b5",
+        "m7♭5",
         "m8",
         "m9",
         "m11",
@@ -120,7 +120,6 @@ export function getChordModifications(chord) {
         "13sus4",
         "dim",
         "dim7",
-        "m7o5",
         "aug"
     ]
     return modifiedQualities.map(q => `${keyNote} ${q}`)
