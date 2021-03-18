@@ -25,9 +25,13 @@ function ChordModifier(props) {
         }
     })
 
+    const dividedChordView = props.measureIndices.map((o, i) => <div className={"modifierMeasure" + (i+1)} key={i}>
+        {chordView.slice(o.start, o.end)}
+    </div>)
+
     return (
         <div className="ChordModifier">
-            {chordView}
+            {dividedChordView}
         </div>
     )
 }

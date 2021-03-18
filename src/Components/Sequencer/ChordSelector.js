@@ -15,7 +15,7 @@ function ChordSelector(props) {
         {possOptions}
     </select>)
     
-    const divided_selects = props.measureIndices.map((o, i) => <div className={"measure" + (i+1)} key={i}>
+    const divided_selects = props.measureIndices.map((o, i) => <div className={"selectorMeasure" + (i+1)} key={i}>
         {selects.slice(o.start, o.end)}
     </div>)
 

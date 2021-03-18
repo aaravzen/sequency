@@ -1,6 +1,8 @@
 import React, { useState, useCallback, useEffect, useRef } from "react"
 import * as Tone from 'tone'
 import WebMidi from "webmidi"
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css';
 import { getChord } from "../../Music/GuitarTools"
 
 function GuitarTrack(props) {
@@ -79,13 +81,27 @@ function GuitarTrack(props) {
 
     useEffect(() => {
         const fullChords = getFullChords()
-        const newStrumArray = strumArray.map((s,i) => {
-            if (s !== "") {
+        const defaultStrummingPattern = getDefaultStrummingPattern()
+        console.log(fullChords)
+        const newStrumArray = fullChords.map((s,i) => {
+            if (i < strumArray.length && strumArray[i] !== "") {
                 return fullChords[i]
             }
-            return s
+            else if (i < strumArray.length) { // blanks
+                return ""
+            }
+            else {
+                const offset = i - strumArray.length
+                const moddedOffset = offset % defaultStrummingPattern.length
+                if (defaultStrummingPattern[moddedOffset]) {
+                    return s
+                }
+                else {
+                    return ""
+                }
+            }
         })
-        changeStrumArray(newStrumArray.slice(0, fullChords.length))
+        changeStrumArray(newStrumArray)
     }, [props.chords])
 
     // SYNTH AND MIDI
@@ -94,6 +110,7 @@ function GuitarTrack(props) {
     const [webmidiLoaded, setWebMidiLoaded] = useState(false)
     const synth = useRef(null)
     const webmidiOutput = useRef(null)
+    const [volume, setVolume] = useState(1)
 
 
     useEffect(() => {
@@ -127,15 +144,16 @@ function GuitarTrack(props) {
         Tone.Transport.clear()
         seq.current = new Tone.Sequence((time, chord) => {
             if (synthLoaded && chord !== "") {
-                synth.current.triggerAttackRelease(getChord(chord, props.keyNote), "8n", time)
+                console.log(`trying to play tone chord ${getChord(chord, props.keyNote)}`)
+                synth.current.triggerAttackRelease(getChord(chord, props.keyNote), "16n", time)
             }
             if (webmidiLoaded && chord !== "") {
-                console.log(`trying to play midi chord ${getChord(chord, props.keyNote)}`)
-                webmidiOutput.current.playNote(getChord(chord, props.keyNote), 1, {duration: 250})
+                console.log(`trying to play midi chord ${getChord(chord, props.keyNote)} at velocity ${volume}`)
+                webmidiOutput.current.playNote(getChord(chord, props.keyNote), 1, {duration: 250, velocity: volume})
             }
             console.log(`chord ${chord}, time ${time}`)
         }, strumArray, "8n").start(0)
-    }, [synthLoaded, webmidiLoaded, props.keyNote, strumArray])
+    }, [synthLoaded, webmidiLoaded, props.keyNote, strumArray, volume])
 
     // VIEW
 
@@ -159,6 +177,16 @@ function GuitarTrack(props) {
         <div className="GuitarTrack">
             {dividedStrumView}
             <br />
+            <p>Volume: {volume}</p>
+            <div className="GuitarVolume">
+                <Slider 
+                    value={volume}
+                    min={0}
+                    max={1}
+                    step={.05}
+                    onChange={(event) => setVolume(event)}
+                />
+            </div>
             { /*<button onClick={() => {seq.current.cancel()}}>
                 Stop sequence
             </button>*/ }

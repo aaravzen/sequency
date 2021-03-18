@@ -94,13 +94,15 @@ function Sequencer(props) {
             <ChordModifier 
                 chords={modifiedChords}
                 modifyChordAtBeat={modifyChordAtBeat}
+                measureIndices={measureIndices}
             />
             <p>{modifiedChordView}</p>
             { /*<SynthTrack chords={modifiedChords} />*/ }
-            <GuitarTrack chords={modifiedChords}
-            timeSignature={props.timeSignature} 
-            measureIndices={measureIndices}
-            keyNote={props.keyNote}
+            <GuitarTrack 
+                chords={modifiedChords}
+                timeSignature={props.timeSignature} 
+                measureIndices={measureIndices}
+                keyNote={props.keyNote}
             />
             <MasterControls />
         </div>
