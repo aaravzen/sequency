@@ -85,42 +85,48 @@ export function getChordsInKey(keyNote, keyQuality) {
 }
 
 export function getChordModifications(chord) {
-    const keyNote = chord.split(" ")[0]
-    const modifiedQualities = [
-        "M",
-        "m",
-        "1",
-        "5",
-        "sus4",
-        "sus2",
-        "add9",
-        "6",
-        "6/9",
-        "Maj7",
-        "8",
-        "Maj9",
-        "Maj7#11",
-        "Maj13",
-        "madd9",
-        "m6",
-        "m♭6",
-        "m6/9",
-        "m7",
-        "m7♭5",
-        "m8",
-        "m9",
-        "m11",
-        "m13",
-        "7",
-        "7sus4",
-        "9",
-        "9sus4",
-        "11",
-        "13",
-        "13sus4",
-        "dim",
-        "dim7",
-        "aug"
-    ]
-    return modifiedQualities.map(q => `${keyNote} ${q}`)
+    try {
+        const keyNote = chord.split(" ")[0]
+        const modifiedQualities = [
+            "M",
+            "m",
+            "1",
+            "5",
+            "sus4",
+            "sus2",
+            "add9",
+            "6",
+            "6/9",
+            "Maj7",
+            "8",
+            "Maj9",
+            "Maj7#11",
+            "Maj13",
+            "madd9",
+            "m6",
+            "m♭6",
+            "m6/9",
+            "m7",
+            "m7♭5",
+            "m8",
+            "m9",
+            "m11",
+            "m13",
+            "7",
+            "7sus4",
+            "9",
+            "9sus4",
+            "11",
+            "13",
+            "13sus4",
+            "dim",
+            "dim7",
+            "aug"
+        ]
+        return modifiedQualities.map(q => `${keyNote} ${q}`)
+    }
+    catch {
+        console.log(`can't get chord modifications on ${chord}`)
+        return [chord]
+    }
 }

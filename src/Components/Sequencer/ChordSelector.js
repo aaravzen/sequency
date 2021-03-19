@@ -4,11 +4,11 @@ import {getChordsInKey} from "../../Music/ScaleTools"
 function ChordSelector(props) {
 
     const possibleChords = getChordsInKey(props.keyNote, props.keyQuality)
-    const possOptions = possibleChords.map((x, idx) => <option value={x} key={x + idx}>{x}</option>)
+    const possOptions = possibleChords.map((x, idx) => <option value={idx} key={x + idx}>{idx === 0 ? "" : idx}</option>)
 
     const selects = props.chords.map((chord,idx) => 
     <select 
-    className={chord === "" ? "chordSelectButtonUnfilled" : "chordSelectButtonFilled"}
+    className={chord === "" || chord == 0 ? "chordSelectButtonUnfilled" : "chordSelectButtonFilled"}
     onChange={(event) => props.addChordAtBeat(idx, event.target.value)}
     value={chord}
     key={idx}>

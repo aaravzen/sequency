@@ -26,36 +26,51 @@ function Sequencer(props) {
         const beats = props.measures * bpm
         return Array.from(Array(beats), (_,x) => {
             const defaultProg = [1, 6, 4, 5, 1, 3, 4, 2, 7, 6]
-            const valid = getChordsInKey(props.keyNote, props.keyQuality)
-            return x % bpm === 0 ? valid[defaultProg[x / bpm]] : ""
+            // const valid = getChordsInKey(props.keyNote, props.keyQuality)
+            return x % bpm === 0 ? defaultProg[x / bpm] : ""
         })
     }, [props.timeSignature, props.measures, props.keyNote, props.keyQuality])
 
     const [baseChords, changeBaseChords] = useState(getDefaultChordProgression())
-    const [modifiedChords, changeModifiedChords] = useState(baseChords)
+    const [modifiedChords, changeModifiedChords] = useState(baseChords.map(idx => {
+        const chordIndex = idx === "" ? 0 : parseInt(idx)
+        return getChordsInKey(props.keyNote, props.keyQuality)[chordIndex]
+    }))
     const [measureIndices, changeMeasureIndices] = useState(generateMeasureIndices())
 
     function addChordAtBeat(beat, newChord) {
-        const newBaseChords = baseChords.map((c,idx) => idx === beat ?  newChord : c)
+        const newBaseChords = baseChords.map((c,idx) => idx === beat ? newChord : c)
         changeBaseChords(newBaseChords)
-        const newModifiedChords = modifiedChords.map((c,idx) => idx === beat ?  newChord : c)
+        const chordIndex = newChord === "" ? 0 : parseInt(newChord)
+        const newChordInKey = getChordsInKey(props.keyNote, props.keyQuality)[chordIndex]
+        const newModifiedChords = modifiedChords.map((c,idx) => idx === beat ? newChordInKey : c)
         changeModifiedChords(newModifiedChords)
     }
     
     function modifyChordAtBeat(beat, newChord) {
-        const newChords = modifiedChords.map((c,idx) => idx === beat ?  newChord : c)
+        const newChords = modifiedChords.map((c,idx) => idx === beat ? newChord : c)
         changeModifiedChords(newChords)
     }
     
     useEffect(() => {
-        const validChords = getChordsInKey(props.keyNote, props.keyQuality)
-        const newChords = baseChords.map((c) => validChords.includes(c) ? c : "")
-        if (JSON.stringify(newChords) !== JSON.stringify(baseChords)){
-            const newModifiedChords = modifiedChords.map((c,idx) => baseChords[idx] === newChords[idx] ? c : newChords[idx])
-            changeBaseChords(newChords)
-            changeModifiedChords(newModifiedChords)
-        }
-    }, [props.keyNote, props.keyQuality, baseChords, modifiedChords])
+        // const validChords = getChordsInKey(props.keyNote, props.keyQuality)
+        // const newChords = baseChords.map((c) => validChords.includes(c) ? c : "")
+        // if (JSON.stringify(newChords) !== JSON.stringify(baseChords)){
+            // changeBaseChords(newChords)
+        // }
+        const newModifiedChords = modifiedChords.map((c,idx) => {
+            const b = baseChords[idx]
+            const chordIndex = b === "" ? 0 : parseInt(b)
+            const chordInKey = getChordsInKey(props.keyNote, props.keyQuality)[chordIndex]
+            if (c.split(" ")[0] === chordInKey.split(" ")[0]) {
+                if (c.split(" ")[1] !== "M" && c.split(" ")[1] !== "m" && c.split(" ")[1] !== "dim") {
+                    return c
+                }
+            }
+            return chordInKey
+        })
+        changeModifiedChords(newModifiedChords)
+    }, [props.keyNote, props.keyQuality, baseChords])
 
     useEffect(() => {
         const b = props.measures * parseInt(props.timeSignature.split("/")[0])
@@ -68,7 +83,12 @@ function Sequencer(props) {
             }
             else {
                 newChords = baseChords.concat(getDefaultChordProgression().slice(baseChords.length)).slice(0, b)
-                newModifiedChords = modifiedChords.concat(newChords.slice(modifiedChords.length)).slice(0, b)
+                const newChordsFromStart = newChords.slice(modifiedChords.length)
+                newModifiedChords = modifiedChords.concat(newChordsFromStart.map((c) => {
+                    const chordIndex = c === "" ? 0 : parseInt(c)
+                    const chordInKey = getChordsInKey(props.keyNote, props.keyQuality)[chordIndex]
+                    return chordInKey
+                })).slice(0, b)
             }
             changeBaseChords(newChords)
             changeModifiedChords(newModifiedChords)
@@ -78,6 +98,12 @@ function Sequencer(props) {
     useEffect(() => changeMeasureIndices(generateMeasureIndices()), [generateMeasureIndices])
     
     const modifiedChordView = modifiedChords.map((c,i) => <span className="chordViewBox" key={i}>{c === "" ? "- -" : c}</span>)
+
+    const dividedChordView = measureIndices.map((o, i) => {
+        return (<div className={"chordViewMeasure" + (i+1)} key={i}>
+            {modifiedChordView.slice(o.start, o.end)}
+        </div>)
+    })
 
     return (
         <div className="Sequencer">
@@ -96,7 +122,7 @@ function Sequencer(props) {
                 modifyChordAtBeat={modifyChordAtBeat}
                 measureIndices={measureIndices}
             />
-            <p>{modifiedChordView}</p>
+            <p>{dividedChordView}</p>
             { /*<SynthTrack chords={modifiedChords} />*/ }
             <GuitarTrack 
                 chords={modifiedChords}

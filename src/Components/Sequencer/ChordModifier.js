@@ -15,10 +15,11 @@ function ChordModifier(props) {
             const possOptions = getChordModifications(c).map((x, idx) => <option value={x} key={x + idx}>{x}</option>)
             return (
                 <select 
-                className={c === "" ? "chordSelectButtonUnfilled" : "chordSelectButtonFilled"}
-                onChange={(event) => props.modifyChordAtBeat(i, event.target.value)}
-                value={c}
-                key={i}>
+                    className={c === "" ? "chordSelectButtonUnfilled" : "chordSelectButtonFilled"}
+                    onChange={(event) => props.modifyChordAtBeat(i, event.target.value)}
+                    value={c}
+                    key={i}
+                >
                     {possOptions}
                 </select>
             )

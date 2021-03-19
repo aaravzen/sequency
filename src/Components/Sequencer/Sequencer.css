@@ -8,6 +8,7 @@
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
+    width: 100px;
 }
 
 .chordSelectButtonUnfilled {
@@ -20,6 +21,7 @@
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
+    width: 100px;
 }
 
 .chordSelectButtons:hover {
@@ -27,13 +29,21 @@
 }
 
 .chordViewBox {
-    background-color: #38C7B2;
-    color: #6A38C7
+    background-color: #6A38C7;
+    color: #38C7B2;
+    border: #95C738;
+    border-width: 5px;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    width: 100px;
 }
 
 .strumViewBox {
     background-color: #38C7B2;
-    color: #6A38C7
+    color: #6A38C7;
 }
 
 .strumSelected {
@@ -46,6 +56,8 @@
     text-decoration: none;
     display: inline-block;
     font-size: 10px;
+    width: 50px;
+    height: inherit;
 }
 
 .strumUnselected {
@@ -58,4 +70,6 @@
     text-decoration: none;
     display: inline-block;
     font-size: 10px;
+    width: 50px;
+    height: inherit;
 }
