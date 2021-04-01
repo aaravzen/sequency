@@ -129,7 +129,6 @@ function GuitarTrack(props) {
                 webmidiOutput.current = WebMidi.outputs.find(output => output.name.includes("IAC"))
                 console.log(webmidiOutput.current)
                 webmidiOutput.current.playNote(["C3", "E3", "G3"], 1, {duration: 3000})
-                // webmidiOutput.current.playNote("C3")
             }
           });
     }, [])
@@ -138,21 +137,38 @@ function GuitarTrack(props) {
 
     useEffect(() => {
         if (seq.current !== null) {
+            // seq.current.clear()
             seq.current.cancel()
-            seq.current.clear()
+            console.log("yo")
+            seq.current.callback = (time, chord) => {
+                if (synthLoaded && chord !== "") {
+                    // console.log(`trying to play tone chord ${getChord(chord, props.keyNote)}`)
+                    synth.current.triggerAttackRelease(getChord(chord, props.keyNote), "16n", time)
+                }
+                if (webmidiLoaded && chord !== "") {
+                    // console.log(`trying to play midi chord ${getChord(chord, props.keyNote)} at velocity ${volume}`)
+                    webmidiOutput.current.playNote(getChord(chord, props.keyNote), 1, {duration: 250, velocity: volume})
+                }
+                // console.log(`chord ${chord}, time ${time}`)
+            }
+            seq.current.events = strumArray
         }
-        Tone.Transport.clear()
-        seq.current = new Tone.Sequence((time, chord) => {
-            if (synthLoaded && chord !== "") {
-                console.log(`trying to play tone chord ${getChord(chord, props.keyNote)}`)
-                synth.current.triggerAttackRelease(getChord(chord, props.keyNote), "16n", time)
-            }
-            if (webmidiLoaded && chord !== "") {
-                console.log(`trying to play midi chord ${getChord(chord, props.keyNote)} at velocity ${volume}`)
-                webmidiOutput.current.playNote(getChord(chord, props.keyNote), 1, {duration: 250, velocity: volume})
-            }
-            console.log(`chord ${chord}, time ${time}`)
-        }, strumArray, "8n").start(0)
+        // Tone.Transport.clear()
+        else {
+            seq.current = new Tone.Sequence((time, chord) => {
+                if (synthLoaded && chord !== "") {
+                    // console.log(`trying to play tone chord ${getChord(chord, props.keyNote)}`)
+                    synth.current.triggerAttackRelease(getChord(chord, props.keyNote), "16n", time)
+                }
+                if (webmidiLoaded && chord !== "") {
+                    // console.log(`trying to play midi chord ${getChord(chord, props.keyNote)} at velocity ${volume}`)
+                    webmidiOutput.current.playNote(getChord(chord, props.keyNote), 1, {duration: 250, velocity: volume})
+                }
+                // console.log(`chord ${chord}, time ${time}`)
+            }, strumArray, "8n")
+            seq.current.debug = true
+            seq.current.start(0)
+        }
     }, [synthLoaded, webmidiLoaded, props.keyNote, strumArray, volume])
 
     // VIEW

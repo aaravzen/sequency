@@ -8,6 +8,16 @@ import {getChordsInKey} from "../Music/ScaleTools"
 import "./Sequencer/Sequencer.css"
 
 function Sequencer(props) {
+
+    const views = {
+        chord_selector: "chord_selector_view",
+        chord_modifier: "chord_modifier_view",
+        tracks: "track_view",
+        all: "uncompressed_view"
+    }
+
+    const [view, changeView] = useState(views.chord_selector)
+
     const generateMeasureIndices = useCallback(() => {
         const ret = []
         const bpm = parseInt(props.timeSignature.split("/")[0])
@@ -105,8 +115,25 @@ function Sequencer(props) {
         </div>)
     })
 
+    let prevView = null
+    let nextView = null
+    switch (view) {
+        case (views.chord_selector):
+            nextView = views.chord_modifier
+            break
+        case (views.chord_modifier):
+            prevView = views.chord_selector
+            nextView = views.tracks
+            break
+        case (views.tracks):
+            prevView = views.chord_modifier
+            break
+    }
+    console.log(`${prevView} ${nextView}`)
+
     return (
         <div className="Sequencer">
+            {view === views.chord_selector || view === views.all ? 
             <ChordSelector
                 chords={baseChords}
                 addChordAtBeat={addChordAtBeat}
@@ -115,21 +142,40 @@ function Sequencer(props) {
                 timeSignature={props.timeSignature}
                 measures={props.measures}
                 measureIndices={measureIndices}
-            />
+            /> :
+            <p />}
             <br />
+            {view === views.chord_modifier || view === views.all ? 
             <ChordModifier 
                 chords={modifiedChords}
                 modifyChordAtBeat={modifyChordAtBeat}
                 measureIndices={measureIndices}
-            />
+            /> : 
+            <p />
+            }
+            { prevView === null ?
+                <button disabled>prev</button> :
+                <button onClick={() => {
+                changeView(prevView)
+                }}>prev</button>
+            }
             <p>{dividedChordView}</p>
+            { nextView === null ?
+                <button disabled>next</button> :
+                <button onClick={() => {
+                changeView(nextView)
+                }}>next</button>
+            }
             { /*<SynthTrack chords={modifiedChords} />*/ }
+            {view === views.tracks || view === views.all ? 
             <GuitarTrack 
                 chords={modifiedChords}
                 timeSignature={props.timeSignature} 
                 measureIndices={measureIndices}
                 keyNote={props.keyNote}
-            />
+            /> :
+            <p />
+            }
             <MasterControls />
         </div>
     )

@@ -8,7 +8,7 @@ function ChordSelector(props) {
 
     const selects = props.chords.map((chord,idx) => 
     <select 
-    className={chord === "" || chord == 0 ? "chordSelectButtonUnfilled" : "chordSelectButtonFilled"}
+    className={chord === "" || chord === 0 ? "chordSelectButtonUnfilled" : "chordSelectButtonFilled"}
     onChange={(event) => props.addChordAtBeat(idx, event.target.value)}
     value={chord}
     key={idx}>
